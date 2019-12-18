@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LineBotSDK.Repository.Test;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,6 +24,7 @@ namespace LineBotSDK.Controllers
         [HttpPost]
         public IHttpActionResult POST()
         {
+            TestRepository test = new TestRepository();
             /*
             try
             {
