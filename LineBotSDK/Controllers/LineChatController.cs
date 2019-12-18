@@ -1,4 +1,6 @@
-﻿using LineBotSDK.Repository.Test;
+﻿using isRock.LineBot;
+using LineBotSDK.Repository;
+using LineBotSDK.Repository.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +11,14 @@ namespace LineBotSDK.Controllers
 {
     public class LineChatController : ApiController
     {
-        isRock.LineBot.Bot _Bot;
-        string _ChannelAccessToken;
+        static int _Index = 0;
+
+        private Bot _Bot;
+        private string _ChannelAccessToken;
+
+        private ReceievedMessage _SendData;
+        private List<Event> _Event;
+
         public LineChatController()
         {
             ///設定你的Channel Access Token
@@ -24,62 +32,23 @@ namespace LineBotSDK.Controllers
         [HttpPost]
         public IHttpActionResult POST()
         {
-            TestRepository test = new TestRepository();
-            /*
             try
             {
-                //取得 http Post RawData(should be JSON)
-                string postData = Request.Content.ReadAsStringAsync().Result;
-                //剖析JSON
-                var ReceivedMessage = isRock.LineBot.Utility.Parsing(postData);
-                var UserSays = ReceivedMessage.events[0].message.text;
-                var ReplyToken = "Udaa293df6f3c802cbc2f8ca03c93ceb6";//ReceivedMessage.events[0].replyToken;
-                //依照用戶說的特定關鍵字來回應
-                switch (UserSays.ToLower())
-                {
-                    case "/teststicker":
-                        //回覆貼圖
-                        bot.ReplyMessage(ReplyToken, 1, 1);
-                        break;
-                    case "/testimage":
-                        //回覆圖片
-                        bot.ReplyMessage(ReplyToken, new Uri("https://scontent-tpe1-1.xx.fbcdn.net/v/t31.0-8/15800635_1324407647598805_917901174271992826_o.jpg?oh=2fe14b080454b33be59cdfea8245406d&oe=591D5C94"));
-                        break;
-                    default:
-                        //回覆訊息
-                        string Message="哈囉, 你說了:" + UserSays;
-                        //回覆用戶
-                        bot.ReplyMessage(ReplyToken, Message);
-                        break;
-                }
-                //回覆API OK
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return Ok();
-            }
-            */
+                ReceivedMessageRequest();
 
-            try
-            {
-                ////傳送純文字訊息
-                //bot.PushMessage("Udaa293df6f3c802cbc2f8ca03c93ceb6", UserSays);
-
-                //取得 http Post RawData(should be JSON)
-                string postData = Request.Content.ReadAsStringAsync().Result;
-                //剖析JSON
-                var ReceivedMessage = isRock.LineBot.Utility.Parsing(postData);
-
-                //回覆訊息
-                string message = ReceivedMessage.events[0].message.text;
-                if (message.Contains("Barry"))
+                if (_Event[0].message.text.Contains("加入會員") == true)
                 {
-                    TalkToBarry(message);
-                }
-                else
-                {
-                    TalkTo(ReceivedMessage.events[0].replyToken, message);
+                    MemberRepository _member = new MemberRepository();
+                    if (!_member.IsMember(_Event[0].source.userId))
+                    {
+                        _Index++;
+                        _member.Add(_Event[0].source.userId, _Index.ToString());
+                        ReplyMessage("歡迎加入會員~");
+                    }
+                    else
+                    {
+                        ReplyMessage("您已經是會員了！");
+                    }
                 }
 
                 //回覆API OK
@@ -87,9 +56,37 @@ namespace LineBotSDK.Controllers
             }
             catch (Exception ex)
             {
+                //ReplyMessage("伺服器有誤!~\r\n請稍後再嘗試");
                 return Ok();
             }
         }
+
+        #region (-)  回應訊息
+        /// <summary>
+        /// (-)  回應訊息
+        /// </summary>
+        /// <param name="message">訊息內容</param>
+        private void ReplyMessage(string message)
+        {
+            //回覆用戶
+            isRock.LineBot.Utility.ReplyMessage(_Event[0].replyToken, message, _ChannelAccessToken);
+        }
+        #endregion
+
+        #region (-)  解析來源資料並賦值
+        /// <summary>
+        /// (-)  解析來源資料並賦值
+        /// </summary>
+        private void ReceivedMessageRequest()
+        {
+            //取得 http Post RawData(should be JSON)
+            string postData = Request.Content.ReadAsStringAsync().Result;
+            //剖析JSON
+            _SendData = isRock.LineBot.Utility.Parsing(postData);
+            _Event = _SendData.events;
+        } 
+        #endregion
+
 
 
         private void TalkToBarry(string mseeage)
