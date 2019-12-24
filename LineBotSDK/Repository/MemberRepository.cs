@@ -59,14 +59,16 @@ namespace LineBotSDK.Repository
         /// </summary>
         /// <param name="UID">Line UID</param>
         /// <param name="name">名稱/暱稱</param>
-        public void Add(string UID, string name)
+        /// <param name="picUrl">照片Url</param>
+        public void Add(string UID, string name, string picUrl)
         {
             _mongoCollection.InsertOneAsync(new Member
             {
                 UID = UID,
                 Name = name,
+                PictureUrl = picUrl,
             });
-        } 
+        }
         #endregion
 
     }

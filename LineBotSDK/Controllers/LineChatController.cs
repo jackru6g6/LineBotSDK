@@ -1,6 +1,7 @@
 ﻿using isRock.LineBot;
 using LineBotSDK.Repository;
 using LineBotSDK.Repository.Test;
+using LineBotSDK.Service.Member;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,6 @@ namespace LineBotSDK.Controllers
 {
     public class LineChatController : ApiController
     {
-        static int _Index = 0;
-
         private Bot _Bot;
         private string _ChannelAccessToken;
 
@@ -32,29 +31,34 @@ namespace LineBotSDK.Controllers
         [HttpPost]
         public IHttpActionResult POST()
         {
+            string replyMessage = string.Empty;
+
             try
             {
                 ReceivedMessageRequest();
 
-                if (_Event[0].message.text.Contains("加入會員") == true)
+                if (_Event.FirstOrDefault().type == "follow")
                 {
-                    MemberRepository _member = new MemberRepository();
-                    if (!_member.IsMember(_Event[0].source.userId))
-                    {
-                        _Index++;
-                        _member.Add(_Event[0].source.userId, _Index.ToString());
-                        ReplyMessage("歡迎加入會員~");
-                    }
-                    else
-                    {
-                        ReplyMessage("您已經是會員了！");
-                    }
+                    var userInfo = _Bot.GetUserInfo(_Event.FirstOrDefault().source.userId);
+
+
+                    MemberService _service = new MemberService();
+                    replyMessage = _service.JoinMember(userInfo.userId, userInfo.displayName, userInfo.pictureUrl);
+                }
+
+
+
+
+
+                if (!string.IsNullOrWhiteSpace(replyMessage))
+                {
+                    ReplyMessage(replyMessage);
                 }
 
                 //回覆API OK
                 return Ok();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //ReplyMessage("伺服器有誤!~\r\n請稍後再嘗試");
                 return Ok();
@@ -84,7 +88,7 @@ namespace LineBotSDK.Controllers
             //剖析JSON
             _SendData = isRock.LineBot.Utility.Parsing(postData);
             _Event = _SendData.events;
-        } 
+        }
         #endregion
 
 
