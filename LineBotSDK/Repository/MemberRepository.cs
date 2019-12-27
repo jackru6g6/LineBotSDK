@@ -1,5 +1,6 @@
 ﻿using LineBotSDK.DTO.Member;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
@@ -8,27 +9,31 @@ using System.Web;
 
 namespace LineBotSDK.Repository
 {
-    public class MemberRepository
+    public class MemberRepository : _BaseMongoRepository
     {
-        private IMongoClient _mongoClient;
-        //private MongoServer _mongoServer;
-        private IMongoDatabase _mongoDatabase;
-        private IMongoCollection<Member> _mongoCollection;
+        //private IMongoClient _mongoClient;
+        ////private MongoServer _mongoServer;
+        //private IMongoDatabase _mongoDatabase;
+        //private IMongoCollection<Member> _mongoCollection;
 
-        public MemberRepository()
+        private IMongoCollection<Member_M> _mongoCollection;
+
+        public MemberRepository() : base()
         {
-            // MongoDB 連線字串
-            string connectionString = "mongodb://localhost";
-            // 產生 MongoClient 物件
-            _mongoClient = new MongoClient(connectionString);
+            //// MongoDB 連線字串
+            //string connectionString = "mongodb://localhost";
+            //// 產生 MongoClient 物件
+            //_mongoClient = new MongoClient(connectionString);
 
-            // 取得 MongoServer 物件
-            //_mongoServer = _mongoClient.GetServer();
+            //// 取得 MongoServer 物件
+            ////_mongoServer = _mongoClient.GetServer();
 
-            // 取得 MongoDatabase 物件
-            _mongoDatabase = _mongoClient.GetDatabase("LineBot");
-            // 取得 Collection
-            _mongoCollection = _mongoDatabase.GetCollection<Member>("Member");
+            //// 取得 MongoDatabase 物件
+            //_mongoDatabase = _mongoClient.GetDatabase("LineBot");
+            //// 取得 Collection
+            //_mongoCollection = _mongoDatabase.GetCollection<Member>("Member");
+
+            _mongoCollection = GetMongoCollection<Member_M>("Member");
         }
 
         public IMongoQueryable GetAll()
@@ -62,7 +67,7 @@ namespace LineBotSDK.Repository
         /// <param name="picUrl">照片Url</param>
         public void Add(string UID, string name, string picUrl)
         {
-            _mongoCollection.InsertOneAsync(new Member
+            _mongoCollection.InsertOneAsync(new Member_M
             {
                 UID = UID,
                 Name = name,
@@ -70,6 +75,24 @@ namespace LineBotSDK.Repository
             });
         }
         #endregion
+
+        public void UpdateStatusByUid(string userUid, string status)
+        {
+            //var query = Query<Member>.EQ(t => t.UID, "");
+
+            //var set = Update<Member>.Set(p => p.status.text, "status");
+            //_mongoCollection.UpdateOne(query, set);
+
+
+            var query = Builders<Member_M>.Filter.Eq(t => t.UID, userUid);
+            var set = Builders<Member_M>.Update.Set(p => p.status.text, status);
+            _mongoCollection.UpdateOne(query, set);
+        }
+
+        public string SelectStatusByUid(string userUid)
+        {
+            return _mongoCollection.Find(t => t.UID == userUid).FirstOrDefault()?.status.text;
+        }
 
     }
 }
