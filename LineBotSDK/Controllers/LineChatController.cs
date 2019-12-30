@@ -85,6 +85,9 @@ namespace LineBotSDK.Controllers
                         break;
                     case "WebOpen":
 
+                        Models.Order.OrderModel a = new Models.Order.OrderModel();
+                        a.Test();
+
                         var LiffURL = "https://f75f8205.ngrok.io/LineBotSDK/home/index";
                         //建立LiffApp
                         var Liff = isRock.LIFF.Utility.AddLiffApp(_ChannelAccessToken, new Uri(LiffURL), isRock.LIFF.ViewType.compact);

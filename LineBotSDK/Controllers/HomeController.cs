@@ -11,6 +11,8 @@ namespace LineBotSDK.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            Models.Order.OrderModel a = new Models.Order.OrderModel();
+            a.Test();
             return View();
         }
 
