@@ -83,6 +83,15 @@ namespace LineBotSDK.Controllers
                         ///刪除訂單
                         DeleteOrder();
                         break;
+                    case "WebOpen":
+
+                        var LiffURL = "https://f75f8205.ngrok.io/LineBotSDK/home/index";
+                        //建立LiffApp
+                        var Liff = isRock.LIFF.Utility.AddLiffApp(_ChannelAccessToken, new Uri(LiffURL), isRock.LIFF.ViewType.compact);
+                        //顯示建立好的 Liff App
+                        isRock.LineBot.Utility.PushMessage(_LineEvent.source.userId, Liff, _ChannelAccessToken);
+                        //isRock.LIFF.Utility.DeleteLiffApp(_ChannelAccessToken, Liffid.apps[0].liffId);
+                        break;
                     default:
                         return Ok();
                 }
