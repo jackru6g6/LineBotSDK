@@ -1,9 +1,4 @@
-﻿using LineBotSDK.DTO.Member;
-using LineBotSDK.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using LineBotSDK.Repository;
 
 namespace LineBotSDK.Service.Member
 {
@@ -41,7 +36,6 @@ namespace LineBotSDK.Service.Member
             _repository.Add(UserUid, name, picUrl);
         }
         #endregion
-
 
         #region (+)  取得會員狀態
         /// <summary>

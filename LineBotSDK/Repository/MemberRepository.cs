@@ -1,11 +1,7 @@
-﻿using LineBotSDK.DTO.Member;
+﻿using LineBotSDK.Models.Mongodb;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace LineBotSDK.Repository
 {
@@ -76,6 +72,12 @@ namespace LineBotSDK.Repository
         }
         #endregion
 
+        #region (+)  更新使用者目前使用狀態
+        /// <summary>
+        /// (+)  更新使用者目前使用狀態
+        /// </summary>
+        /// <param name="userUid">使用者 uid</param>
+        /// <param name="status">狀態</param>
         public void UpdateStatusByUid(string userUid, string status)
         {
             //var query = Query<Member>.EQ(t => t.UID, "");
@@ -88,11 +90,18 @@ namespace LineBotSDK.Repository
             var set = Builders<Member_M>.Update.Set(p => p.status.text, status);
             _mongoCollection.UpdateOne(query, set);
         }
+        #endregion
 
+        #region (+)  取得使用者狀態
+        /// <summary>
+        /// (+)  取得使用者狀態
+        /// </summary>
+        /// <param name="userUid">使用者 uid</param>
         public string SelectStatusByUid(string userUid)
         {
             return _mongoCollection.Find(t => t.UID == userUid).FirstOrDefault()?.status.text;
-        }
+        } 
+        #endregion
 
     }
 }

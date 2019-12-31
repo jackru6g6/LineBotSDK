@@ -1,10 +1,10 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace LineBotSDK.DTO
+namespace LineBotSDK.Models.Mongodb
 {
-    public class Mongodb
+    public class _Mongodb
     {
-        public Mongodb() { }
+        public _Mongodb() { }
 
         [BsonId]
         public MongoDB.Bson.ObjectId _id { get; set; }

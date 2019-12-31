@@ -2,13 +2,13 @@
 using isRock.LineBot.Conversation;
 using LineBotSDK.Repository;
 using LineBotSDK.Service.Member;
+using LineBotSDK.Service.Menu;
 using LineBotSDK.Service.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using static LineBotSDK.DTO.Order.Order;
 
 namespace LineBotSDK.Controllers
 {
@@ -85,8 +85,8 @@ namespace LineBotSDK.Controllers
                         break;
                     case "WebOpen":
 
-                        Models.Order.OrderModel a = new Models.Order.OrderModel();
-                        a.Test();
+                        //Models.Order.OrderModel a = new Models.Order.OrderModel();
+                        //a.Test();
 
                         var LiffURL = "https://f75f8205.ngrok.io/LineBotSDK/home/index";
                         //建立LiffApp
@@ -96,6 +96,10 @@ namespace LineBotSDK.Controllers
                         //isRock.LIFF.Utility.DeleteLiffApp(_ChannelAccessToken, Liffid.apps[0].liffId);
                         break;
                     default:
+                    case "WebCrawlerMenu":
+                        //MenuService _menuService = new MenuService();
+                        //_menuService.WebCrawlerMenu("");
+                        break;
                         return Ok();
                 }
 
@@ -198,7 +202,7 @@ namespace LineBotSDK.Controllers
                 var orders = service.GetAllOrderByDate(_LineEvent.postback.Params.date);///格式 yyyy-MM-dd
 
                 _ReplyMessage = orders?.Any() == true ? $"{string.Join("\r\n\r\n", orders.Select(t => $" 哪一餐：{t.type}\r\n 餐廳：{t.restaurant}\r\n 餐點內容：{t.meal}\r\n 訂購時間：{t.orderTime}"))}"
-                                                                              : $"{_LineEvent.postback.Params.date} 查無點餐紀錄";
+                                                                               : $"{_LineEvent.postback.Params.date} 查無點餐紀錄";
                 _Statue = string.Empty;
             }
         }
@@ -213,7 +217,7 @@ namespace LineBotSDK.Controllers
             _Statue = "OrderMeal";
 
             //定義接收CIC結果的類別
-            ProcessResult<Order_Request> result;
+            ProcessResult<Models.LineConversation.Order_C.Order_Request> result;
             OrderService service = new OrderService(_LineEvent.source.userId);
 
             var CIC = service.GetConversationCIC(_ChannelAccessToken);

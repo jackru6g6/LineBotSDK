@@ -1,11 +1,12 @@
 ﻿using isRock.LineBot;
 using isRock.LineBot.Conversation;
+using LineBotSDK.Models.Mongodb;
 using LineBotSDK.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using static LineBotSDK.DTO.Order.Order;
+using static LineBotSDK.Models.LineConversation.Order_C;
 
 namespace LineBotSDK.Service.Order
 {
@@ -106,6 +107,10 @@ namespace LineBotSDK.Service.Order
             }
             return null;
         }
+        public List<Order_M> GetAllOrderByDate(DateTime date)
+        {
+            return _repository.SelectAllByDate(Uid, date).ToList();
+        }
         #endregion
 
         #region (+)  新增訂單
@@ -142,7 +147,7 @@ namespace LineBotSDK.Service.Order
             public string type { get; set; }
             public string restaurant { get; set; }
             public string meal { get; set; }
-        } 
+        }
         #endregion
     }
 }
