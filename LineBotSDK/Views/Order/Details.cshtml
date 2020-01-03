@@ -1,213 +1,82 @@
 ﻿@model LineBotSDK.Models.Views.Order.DetailsViewModel
 
-
 @{
-//ViewBag.Title = "Details";
+    ViewBag.Title = "ViewBag_Details";
 }
 
 <html>
     <head>
         <title>Details</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-        <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-        @*<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>*@
         
-        <script>
-            liff.init({
-                liffId: '1589802303-aVoDyNmv'
-            }).then(()=>{
-                alert("成功");
-                alert(liff.getLanguage());
-                alert(liff.isLoggedIn());
-                alert(liff.getContext().userId);
-            }).catch(error =>{
-                alert("失敗：" + error);
-            })
-            @*$(document).on('pageinit',"#Page1", function () {
-          //var id = @ViewBag.id;
-          var IpAndPort = "http://192.168.0.10:8012";
-
-          $.getJSON(IpAndPort + "/api/EmployeeAPI/" +  window.location.search.substr(4),
-             function (data) {
-               $("<li/>").text("編號 : " + data.ID).appendTo("#listviewContainer");
-               $("<li/>").text("姓名 : " + data.Name).appendTo("#listviewContainer");
-               $("<li/>").text("年齡 : " + data.Age).appendTo("#listviewContainer");
-               $("<li/>").text("部門 : " + data.Department).appendTo("#listviewContainer");
-               $("#listviewContainer").listview();
-             });
-        });*@
-            //window.onload = function (e) {
-            //    alert("start");
-            //    alert("DATA：" + data);
-                //alert("data：" + data);
-                //if (typeof data == undefined) {
-                //    alert("data is undefined");
-                //}
-                //else {
-                //    alert("data is defined");
-                //}
+        <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />-->
+        <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>>--><!--手機板JS-->
 
 
-                //liff.closeWindow();
-                //liff.init(function (data) {
-                //    //initializeApp(data);
-                //    //document.getElementById('listviewContainer').textContent = data.language
-                //    //alert(data.language);
-                //});
-                
-            //};
-
-            //function initializeApp(data) {
-            //    document.getElementById('languagefield').textContent = data.language;
-            //    document.getElementById('viewtypefield').textContent = data.context.viewType;
-            //    document.getElementById('useridfield').textContent = data.context.userId;
-            //    document.getElementById('utouidfield').textContent = data.context.utouId;
-            //    document.getElementById('roomidfield').textContent = data.context.roomId;
-            //    document.getElementById('groupidfield').textContent = data.context.groupId;
-
-            //    // openWindow call
-            //    document.getElementById('openwindowbutton').addEventListener('click', function () {
-            //        liff.openWindow({
-            //            url: 'https://line.me'
-            //        });
-            //    });
-
-            //    // closeWindow call
-            //    document.getElementById('closewindowbutton').addEventListener('click', function () {
-            //        liff.closeWindow();
-            //    });
-
-            //    // sendMessages call
-            //    document.getElementById('sendmessagebutton').addEventListener('click', function () {
-            //        liff.sendMessages([{
-            //            type: 'text',
-            //            text: "You've successfully sent a message! Hooray!"
-            //        }, {
-            //            type: 'sticker',
-            //            packageId: '2',
-            //            stickerId: '144'
-            //        }]).then(function () {
-            //            window.alert("Message sent");
-            //        }).catch(function (error) {
-            //            window.alert("Error sending message: " + error);
-            //        });
-            //    });
-
-            //    // get access token
-            //    document.getElementById('getaccesstoken').addEventListener('click', function () {
-            //        const accessToken = liff.getAccessToken();
-            //        document.getElementById('accesstokenfield').textContent = accessToken;
-            //        toggleAccessToken();
-            //    });
-
-            //    // get profile call
-            //    document.getElementById('getprofilebutton').addEventListener('click', function () {
-            //        liff.getProfile().then(function (profile) {
-            //            document.getElementById('useridprofilefield').textContent = profile.userId;
-            //            document.getElementById('displaynamefield').textContent = profile.displayName;
-
-            //            const profilePictureDiv = document.getElementById('profilepicturediv');
-            //            if (profilePictureDiv.firstElementChild) {
-            //                profilePictureDiv.removeChild(profilePictureDiv.firstElementChild);
-            //            }
-            //            const img = document.createElement('img');
-            //            img.src = profile.pictureUrl;
-            //            img.alt = "Profile Picture";
-            //            profilePictureDiv.appendChild(img);
-
-            //            document.getElementById('statusmessagefield').textContent = profile.statusMessage;
-            //            toggleProfileData();
-            //        }).catch(function (error) {
-            //            window.alert("Error getting profile: " + error);
-            //        });
-            //    });
-            //}
-
-            //function toggleAccessToken() {
-            //    toggleElement('accesstokendata');
-            //}
-
-            //function toggleProfileData() {
-            //    toggleElement('profileinfo');
-            //}
-
-            //function toggleElement(elementId) {
-            //    const elem = document.getElementById(elementId);
-            //    if (elem.offsetWidth > 0 && elem.offsetHeight > 0) {
-            //        elem.style.display = "none";
-            //    } else {
-            //        elem.style.display = "block";
-            //    }
-            //}
+        <link rel="stylesheet" href="~/Content/jquery.mobile-1.4.5.min.css" />
+        <script src="~/scripts/jquery-1.11.1.min.js"></script>
+        <script src="~/scripts/jquery.mobile-1.4.5.min.js"></script>
 
 
+        @*<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />*@
+        @*<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>*@
+        @*<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>*@
 
-            //init LIFF
-            function initializeApp(data) {
-                //取得用戶身分
-                var userid = data.context.userId;
-                //
-                // ...
-                //
-            }
-            //新增
-            function AddRecord(amount, Type, Memo, DateTime) {
-                //資料檢查
-                if (amount == '' || Type == '' || Type.includes('(') || Type.includes(')')) {
-                    alert('資料不完整!');
-                    return;
-                }
-                //組出新增字串
-                var msg = "/add/";
-                msg = msg + amount + "/";
-                msg = msg + Type + "/";
-                msg = msg + Memo + "/";
-                msg = msg + DateTime + "/";
-                //把訊息以用戶的身分發送給LINE Bot
-                liff.sendMessages([
-                    {
-                        type: 'text',
-                        text: msg
-                    }
-                ])
-                    .then(() => {
-                        //建立成功，關閉視窗
-                        liff.closeWindow();
-                    });
-            }
-            $(document).ready(function () {
-                //init LIFF
-                liff.init(function (data) {
-                    initializeApp(data);
-                });
-                //當選擇的消費分類改變時
-                $('#sel_type').change(function () {
-                    //把值填入textbox
-                    $('#txb_type').val($('#sel_type').find(":selected").text().trim());
-                });
-                //按下新增鈕
-                $('#btn_addRecord').click(function (e) {
-                    //新增
-                    AddRecord($('#txb_amount').val(), $('#txb_type').val(), $('#txb_memo').val(), $('#txb_datetime').val());
-                });
-            });
+    
 
-        </script>
-        <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+        @*<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>*@
+        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script><!--Line Liff 2.0 JS-->
+
+        <script src="~/scripts/Order/Details.js"></script>
     </head>
+
+
     <body>
         <div data-role="page" id="Page1">
             <div data-role="header" data-theme="d">
-                <h1>jQuery Mobile</h1>
-                <h1>人事系統</h1>
-                <a data-rel="back">上一頁</a>
+                <h1>訂單查詢</h1>
+                @*<a data-rel="back">上一頁</a>*@
             </div>
-            <div data-role="content">
+            <div data-role="content" class="wrapper">
                 <!-- <a href="/Employees/Edit/@ViewBag.id" data-icon="grid" data-ajax="false" data-role="button">修改員工資料</a>
                 <br /> -->
-                <ul id="listviewContainer"></ul>
+                
+                
+                @*<ul id="listviewContainer">123</ul>*@
+                @*<table data-role="table" class="ui-responsive">
+                    <tr>
+                        <th>餐廳</th>
+                        <td>滷肉飯</td>
+                    </tr>
+                </table>*@
+                <input type="text" name="" id="#text_id"><br>
+
+                <fieldset class="ui-grid-a">
+                    <div class="ui-block-a"><input type="submit" value="Submit" data-theme="a"></div>
+                    <div class="ui-block-b"><input type="reset" value="Reset" data-theme="b"></div>
+                </fieldset>
+
+                <div data-role="collapsible">
+                    <h3>I'm a header</h3>
+                    <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
+                    <p>2。I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
+                </div>
+                <div data-role="collapsible">
+                    <h3>I'm a header</h3>
+                    <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
+                    <p>2。I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
+                </div>
+
+
+                <table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke" bgcolor="#00FF00">
+                    <thead>
+                        內容省略
+                    </thead>
+                    <tbody>
+                        內容省略
+                    </tbody>
+                </table>
             </div>
             <div data-role="footer" data-theme="d">
                 <h1>Copyright@2019 WizardWu公司</h1>

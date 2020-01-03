@@ -20,18 +20,24 @@ namespace LineBotSDK.Controllers
         }
 
         [HttpGet]
-        public ActionResult Details(string uid, DateTime? date = null)
+        public ActionResult Details()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        public JsonResult GetOrder(string uid, DateTime? date = null)
         {
             if (string.IsNullOrWhiteSpace(uid))
             {
-                return View();
+                return Json(null);
             }
 
             _orderService = new OrderService(uid);
-            //var data = _orderService.GetAllOrderByDate(date);
 
 
-            date = DateTime.Now.AddDays(-5);
+            date = date ?? DateTime.Now;
             var data = _orderService.GetAllOrderByDate(date.Value);
 
             DetailsViewModel aaa = new DetailsViewModel();
@@ -42,7 +48,7 @@ namespace LineBotSDK.Controllers
                 DishName = t.meal,
             }).ToList();
 
-            return View(aaa);
+            return Json(aaa, JsonRequestBehavior.AllowGet);
         }
     }
 }
