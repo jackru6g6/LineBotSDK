@@ -1,87 +1,114 @@
-﻿@model LineBotSDK.Models.Views.Order.DetailsViewModel
+﻿<!DOCTYPE html>
+@model LineBotSDK.Models.Views.Order.DetailsViewModel
 
 @{
     ViewBag.Title = "ViewBag_Details";
 }
 
 <html>
-    <head>
-        <title>Details</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
-        <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />-->
-        <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>>--><!--手機板JS-->
+<head>
+    <title>Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="~/Scripts/jquery-1.8.3.min.js"></script>
 
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    @*<meta name="viewport" content="width=device-width, initial-scale=1">*@
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <!--加這一行的目的是要強迫網頁的內容，以裝置目前的寬度來做呈現-->
+    @*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>*@
 
-        <link rel="stylesheet" href="~/Content/jquery.mobile-1.4.5.min.css" />
-        <script src="~/scripts/jquery-1.11.1.min.js"></script>
-        <script src="~/scripts/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js" integrity="sha384-L2pyEeut/H3mtgCBaUNw7KWzp5n9+4pDQiExs933/5QfaTh8YStYFFkOzSoXjlTb" crossorigin="anonymous"></script>
 
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script><!--Line Liff 2.0 JS-->
 
-        @*<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />*@
-        @*<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>*@
-        @*<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>*@
+    <script src="~/Scripts/Order/Details.js"></script>
+</head>
+<body>
 
-    
-
-
-        @*<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>*@
-        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script><!--Line Liff 2.0 JS-->
-
-        <script src="~/scripts/Order/Details.js"></script>
-    </head>
-
-
-    <body>
-        <div data-role="page" id="Page1">
-            <div data-role="header" data-theme="d">
-                <h1>訂單查詢</h1>
-                @*<a data-rel="back">上一頁</a>*@
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12" style="background-color:red">
+                區域會慢慢改變位置
             </div>
-            <div data-role="content" class="wrapper">
-                <!-- <a href="/Employees/Edit/@ViewBag.id" data-icon="grid" data-ajax="false" data-role="button">修改員工資料</a>
-                <br /> -->
-                
-                
-                @*<ul id="listviewContainer">123</ul>*@
-                @*<table data-role="table" class="ui-responsive">
-                    <tr>
-                        <th>餐廳</th>
-                        <td>滷肉飯</td>
-                    </tr>
-                </table>*@
-                <input type="text" name="" id="#text_id"><br>
-
-                <fieldset class="ui-grid-a">
-                    <div class="ui-block-a"><input type="submit" value="Submit" data-theme="a"></div>
-                    <div class="ui-block-b"><input type="reset" value="Reset" data-theme="b"></div>
-                </fieldset>
-
-                <div data-role="collapsible">
-                    <h3>I'm a header</h3>
-                    <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                    <p>2。I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                </div>
-                <div data-role="collapsible">
-                    <h3>I'm a header</h3>
-                    <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                    <p>2。I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                </div>
-
-
-                <table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke" bgcolor="#00FF00">
-                    <thead>
-                        內容省略
-                    </thead>
-                    <tbody>
-                        內容省略
-                    </tbody>
-                </table>
+            <div class="col-md-3 col-sm-6 col-xs-12" style="background-color:blue">
+                區域會慢慢改變位置
             </div>
-            <div data-role="footer" data-theme="d">
-                <h1>Copyright@2019 WizardWu公司</h1>
-                <h1>All Rights Reserved</h1>
+            <div class="col-md-3 col-sm-6 col-xs-12" style="background-color:green">
+                區域會慢慢改變位置
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12" style="background-color:yellow">
+                區域會慢慢改變位置
             </div>
         </div>
-    </body>
+
+        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h5 class="card-title">Primary card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn">Left</button>
+            <button class="btn">Middle</button>
+            <button class="btn">Right</button>
+        </div>
+
+        <div class="todolist__input">
+            <h1> todolist </h1>
+            <input class="form-control form-control-sm" id="input" type="text" placeholder="輸入代辦事項">
+            <button type="button" class="btn btn-sm btn-primary">Primary</button>
+        </div>
+        <div class="todolitst__list"></div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">餐廳</th>
+                    <th scope="col">預約時間</th>
+                    <th scope="col">餐點內容</th>
+                    <th scope="col">訂購時間</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="panel panel-primary">...</div>
+        <div class="panel panel-success">...</div>
+        <div class="panel panel-info">...</div>
+        <div class="panel panel-warning">...</div>
+        <div class="panel panel-danger">...</div>
+        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h5 class="card-title">Primary card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

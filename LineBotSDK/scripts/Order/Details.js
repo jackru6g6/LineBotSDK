@@ -1,80 +1,60 @@
-﻿alert("Details.js載入");
-
-///Liff初始化載入
+﻿///Liff初始化載入
 liff.init({
     liffId: '1589802303-aVoDyNmv'
 }).then(() => {
-    //alert(liff.getLanguage());
-    //alert(liff.isLoggedIn());
-    //alert(liff.getContext().userId);
     GetOrder();
 }).catch(error => {
     alert("失敗：" + error);
-    //GetOrder();
 });
 
+
+
 function GetOrder() {
-    //alert("GetOrder_Start");
-    //$.ajax({
-    //    url: '/LineBotSDK/Order/GetOrder',
-    //    //cache: false,
-    //    //traditional: true,
-    //    data: {
-    //        uid: "Udaa293df6f3c802cbc2f8ca03c93ceb6",
-    //    },
-    //    //dataType: 'json',
-    //    type: 'GET',
-    //    //async: true,
-    //    async: false,//不啟用非同步
-    //    success: function (data) {
-    //        alert("api成功");
-    //    }
-    //});
-
-
+    debugger;
     ///liff.getContext().userId
     $.get('/LineBotSDK/Order/GetOrder', { 'uid': "Udaa293df6f3c802cbc2f8ca03c93ceb6" }, function (data) {
-        //alert("data：" + data.RestaurantName);
+        debugger;
         AppendOrder(data);
     });
 }
 
-
 function AppendOrder(data) {
     debugger;
-
-    const wrapper = document.querySelector('.wrapper');
-    
-    mount(new TestM({ RestaurantName: data.RestaurantName }), wrapper)
-
-    //$.each(data, function (aaa) {
-    //    debugger;
-    //    mount(new TestM({ RestaurantName: 'red' }), wrapper)
-
-       
-
-    //});
-
-
+    $(`
+        <tr>
+            <th scope="row">${data.RestaurantName}</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>1</td>
+        </tr>
+    `).appendTo($('table tbody'));
 }
+
+
+//function AppendOrder(data) {
+//    debugger;
+//    const wrapper = document.querySelector('table tbody');
+
+//    mount(new TestM({ RestaurantName: data.RestaurantName }), wrapper)
+//}
 
 
 
 
 /* Component */
 class Component {
-    constructor (props = {}) {
-      this.props = props
+    constructor(props = {}) {
+        this.props = props
     }
 
-    setState (state) {
+    setState(state) {
         const oldEl = this.el
         this.state = state
         this.el = this.renderDOM()
         if (this.onStateChange) this.onStateChange(oldEl, this.el)
     }
 
-    renderDOM () {
+    renderDOM() {
         this.el = createDOMFromString(this.render())
         if (this.onClick) {
             this.el.addEventListener('click', this.onClick.bind(this), false)
@@ -100,7 +80,7 @@ const mount = (component, wrapper) => {
 
 
 class TestM extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props)
         this.state = { RestaurantName: '' }
     }
@@ -111,13 +91,15 @@ class TestM extends Component {
     //    })
     //}
 
-    render () {
+    render() {
         return `
-             <div data-role="collapsible">
-                   <h3>${this.props.RestaurantName}</h3>
-                   <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                   <p>2。I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-               </div>
+            <tr>
+                <th scope="row">${this.props.RestaurantName}</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>1</td>
+            </tr>
         `
     }
 }
+
