@@ -95,11 +95,11 @@ namespace LineBotSDK.Controllers
                         isRock.LineBot.Utility.PushMessage(_LineEvent.source.userId, Liff, _ChannelAccessToken);
                         //isRock.LIFF.Utility.DeleteLiffApp(_ChannelAccessToken, Liffid.apps[0].liffId);
                         break;
-                    default:
                     case "WebCrawlerMenu":
                         //MenuService _menuService = new MenuService();
                         //_menuService.WebCrawlerMenu("");
                         break;
+                    default:
                         return Ok();
                 }
 

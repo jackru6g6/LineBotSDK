@@ -45,7 +45,9 @@ function AppendOrder(data) {
 
     const wrapper = document.querySelector('.wrapper');
     
-    mount(new TestM({ RestaurantName: data.RestaurantName }), wrapper)
+    mount(new TestM({ RestaurantName: data.RestaurantName }), wrapper);
+
+    $('.aaaa').listview("refresh");
 
     //$.each(data, function (aaa) {
     //    debugger;
@@ -113,7 +115,7 @@ class TestM extends Component {
 
     render () {
         return `
-             <div data-role="collapsible">
+             <div data-role="collapsible" class="aaaa">
                    <h3>${this.props.RestaurantName}</h3>
                    <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
                    <p>2。I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
