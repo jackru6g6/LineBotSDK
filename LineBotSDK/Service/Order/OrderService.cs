@@ -92,6 +92,9 @@ namespace LineBotSDK.Service.Order
         }
         #endregion
 
+
+
+
         #region (+)  取得該天訂單
         /// <summary>
         /// (+)  取得該天訂單
@@ -122,7 +125,7 @@ namespace LineBotSDK.Service.Order
         {
             var data = Newtonsoft.Json.JsonConvert.DeserializeObject<Order_M>(jason);
             data.uid = Uid;
-            data.orderTime = DateTime.Now;
+            data.updateDate = DateTime.Now;
 
             _repository.Add(data);
         }
@@ -144,9 +147,9 @@ namespace LineBotSDK.Service.Order
         /// </summary>
         public class DeleteOrderDto
         {
-            public string type { get; set; }
+            //public string type { get; set; }
             public string restaurant { get; set; }
-            public string meal { get; set; }
+            public DateTime date { get; set; }
         }
         #endregion
     }

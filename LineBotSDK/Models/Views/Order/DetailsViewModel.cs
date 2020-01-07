@@ -12,17 +12,30 @@ namespace LineBotSDK.Models.Views.Order
             Orders = new List<Order>();
         }
 
-        public string RestaurantName { get; set; }
+        public List<Order> Orders;
 
-        public DateTime ChooseDate { get; set; }
 
-        public List<Order> Orders { get; set; }
 
         public class Order
         {
-            public string DishName { get; set; }
+            public string Restaurant { get; set; }
+
+            public DateTime OrderTime { get; set; }
+
+            public string Notice { get; set; }
+
+            public int Total { get; set; }
+
+            public List<Order> Orders { get; set; }
+        }
+
+        public class _Orders
+        {
+            public string Name { get; set; }
             public string Notice { get; set; }
             public int Price { get; set; }
+            public int Count { get; set; }
         }
+
     }
 }
