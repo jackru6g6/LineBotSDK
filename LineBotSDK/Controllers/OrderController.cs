@@ -35,20 +35,30 @@ namespace LineBotSDK.Controllers
             }
 
             _orderService = new OrderService(uid);
-
-
             date = date ?? DateTime.Now;
-            var data = _orderService.GetAllOrderByDate(date.Value);
 
-            DetailsViewModel aaa = new DetailsViewModel();
-            aaa.RestaurantName = "蜂鳥食堂";
-            aaa.ChooseDate = date.Value;
-            aaa.Orders = data.Select(t => new DetailsViewModel.Order
-            {
-                DishName = t.meal,
-            }).ToList();
+            var a = _orderService.GetAllOrderByDate(date.Value);
 
-            return Json(aaa, JsonRequestBehavior.AllowGet);
+            return Json(_orderService.GetAllOrderByDate(date.Value), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public void DeleteOrder(string uid, string restaurant, DateTime date)
+        {
+            if (string.IsNullOrWhiteSpace(uid))
+            {
+                //return Json(null);
+                return;
+            }
+
+            new OrderService(uid).DeleteOrder(new OrderService.DeleteOrderDto
+            {
+                restaurant = restaurant,
+                date = date,
+            });
+            //return ok();
+            //return Json(_orderService.GetAllOrderByDate(date.Value), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

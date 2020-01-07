@@ -1,63 +1,62 @@
-﻿alert("Details.js載入");
-
-///Liff初始化載入
+﻿///Liff初始化載入
 liff.init({
     liffId: '1589802303-aVoDyNmv'
 }).then(() => {
-    //alert(liff.getLanguage());
-    //alert(liff.isLoggedIn());
-    //alert(liff.getContext().userId);
+
+    $("#button-addon1").datepicker();
+    
     GetOrder();
 }).catch(error => {
     alert("失敗：" + error);
-    //GetOrder();
 });
 
-function GetOrder() {
-    //alert("GetOrder_Start");
-    //$.ajax({
-    //    url: '/LineBotSDK/Order/GetOrder',
-    //    //cache: false,
-    //    //traditional: true,
-    //    data: {
-    //        uid: "Udaa293df6f3c802cbc2f8ca03c93ceb6",
-    //    },
-    //    //dataType: 'json',
-    //    type: 'GET',
-    //    //async: true,
-    //    async: false,//不啟用非同步
-    //    success: function (data) {
-    //        alert("api成功");
-    //    }
-    //});
 
-
-    ///liff.getContext().userId
-    $.get('/LineBotSDK/Order/GetOrder', { 'uid': "Udaa293df6f3c802cbc2f8ca03c93ceb6" }, function (data) {
-        //alert("data：" + data.RestaurantName);
-        AppendOrder(data);
-    });
+///清空菜單卡片區段
+function ClearOrderStatus() {
+    $('#accordionExample').html('');
 }
 
-
-function AppendOrder(data) {
+///取得當天
+function GetOrder(date) {
     debugger;
+    var para = "uid=Udaa293df6f3c802cbc2f8ca03c93ceb6";
+    if(typeof date !== "undefined"){
+        para+="&date="+date;
+    }
 
-    const wrapper = document.querySelector('.wrapper');
-    
-    mount(new TestM({ RestaurantName: data.RestaurantName }), wrapper);
+    ClearOrderStatus();
+    /////liff.getContext().userId
+    $.getJSON("/LineBotSDK/api/OrderAPI/GetOrder?" +para,
+            function (data) {
+                $.each(data, function(e){
+                    let orderList = [];
+                    $.each(this.orders, function(){
+                        orderList.push(
+                            `
+                                   &emsp;&emsp;${this.name} / 
+                                   $${this.price} / 
+                                   ${this.count}份
+                               `
+                            );
+                    })
 
-    $('.aaaa').listview("refresh");
-
-    //$.each(data, function (aaa) {
-    //    debugger;
-    //    mount(new TestM({ RestaurantName: 'red' }), wrapper)
-
-       
-
-    //});
-
-
+                    const wrapper = document.querySelector('div#accordionExample');
+                    mount(new AccordionCard({ 
+                        Title:this.restaurant , 
+                        Time:this.updateDate,
+                        Total:this.total,
+                        Notice:this.notice,
+                        Menu:"<br/>\n" + orderList.join("<br/>\n"),
+                        ID:e,
+                        Show: e==0? "show" : "",
+                        Aria: e==0? "true" : "false",
+                    }), wrapper);
+                });
+            })
+            .fail(
+            function (xhr, textStatus, err) {
+                $('#status').html('Error: ' + err);
+            });
 }
 
 
@@ -69,7 +68,7 @@ class Component {
       this.props = props
     }
 
-    setState (state) {
+setState (state) {
         const oldEl = this.el
         this.state = state
         this.el = this.renderDOM()
@@ -101,10 +100,19 @@ const mount = (component, wrapper) => {
 
 
 
-class TestM extends Component {
+class AccordionCard extends Component {
     constructor (props) {
         super(props)
-        this.state = { RestaurantName: '' }
+        this.state = { Title: '' , 
+            Content:'',
+            Time:'',
+            Total:0,
+            Notice:'',
+            Menu:'',
+            ID:"",
+            Show:"",
+            Aria:"true",
+        }
     }
 
     //onClick () {
@@ -115,11 +123,57 @@ class TestM extends Component {
 
     render () {
         return `
-             <div data-role="collapsible" class="aaaa">
-                   <h3>${this.props.RestaurantName}</h3>
-                   <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                   <p>2。I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-               </div>
+             <div class="card">
+                    <div class="card-header" id="headingOne${this.props.ID}">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne${this.props.ID}" aria-expanded="${this.props.Aria}" aria-controls="collapseOne${this.props.ID}">
+                                ${this.props.Title}
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseOne${this.props.ID}" class="collapse ${this.props.Show}" aria-labelledby="headingOne${this.props.ID}" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <p>訂購時間：${this.props.Time}</p>
+                            <p>總金額：${this.props.Total}</p>
+                            <p>備註：${this.props.Notice}</p>
+                            <p>內容：${this.props.Menu}</p>
+                            
+                            <span style="display:flex; justify-content:flex-end; width:100%; padding:0;">
+                                 <button type="button" class="btn btn-danger text-right" onclick="CancelOrder('${this.props.Title}','${this.props.Time}')">取消訂單</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
         `
     }
+}
+
+function CancelOrder(restaurant,date){
+    if(confirm("確實要刪除嗎?")){
+        $.ajax({
+            url: "/LineBotSDK/api/OrderAPI/Order?uid=Udaa293df6f3c802cbc2f8ca03c93ceb6&restaurant="+restaurant+"&date="+date,
+            cache: false,
+            type: 'DELETE',
+            contentType: 'application/json; charset=utf-8',
+            //data: json,
+            success: function () { 
+                alert("已經刪除！");
+                GetOrder(); 
+            }
+        })
+        .fail(
+        function (xhr, textStatus, err) {
+            $('#status').html('Error: ' + err);
+        });
+
+    }
+    else{
+        alert("已經取消了刪除操作");
+    }
+}
+
+function SearchOrderByDate(){
+    $('#datepicker').val();
+
+    GetOrder($('#datepicker').val());
 }

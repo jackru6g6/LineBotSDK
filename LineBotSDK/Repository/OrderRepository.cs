@@ -25,8 +25,8 @@ namespace LineBotSDK.Repository
         public List<Order_M> SelectAllByDate(string uid, DateTime date)
         {
             return collection.Find(t => t.uid == uid &&
-                                                     t.orderTime >= date &&
-                                                     t.orderTime < date.AddDays(1)).ToList();
+                                                     t.updateDate >= date &&
+                                                     t.updateDate < date.AddDays(1)).ToList();
         }
         #endregion
 
@@ -51,9 +51,13 @@ namespace LineBotSDK.Repository
             //var query = Builders<Member_M>.Filter.Eq(t => t.UID, userUid);
             //var set = Builders<Member_M>.Update.Set(p => p.status.text, status);
             collection.DeleteOne(t => t.uid == uid &&
-                                                    t.type == data.type &&
+                                                    //t.type == data.type &&
                                                     t.restaurant == data.restaurant &&
-                                                    t.meal == data.meal);
+
+                                                    t.updateDate >= data.date &&
+                                                     t.updateDate < data.date.AddDays(1)
+                                                    //t.meal == data.meal
+                                                    );
 
 
             //collection.DeleteOne(a => a.uid == uid);

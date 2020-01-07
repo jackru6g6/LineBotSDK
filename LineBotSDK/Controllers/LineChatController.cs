@@ -201,8 +201,8 @@ namespace LineBotSDK.Controllers
                 OrderService service = new OrderService(_LineEvent.source.userId);
                 var orders = service.GetAllOrderByDate(_LineEvent.postback.Params.date);///格式 yyyy-MM-dd
 
-                _ReplyMessage = orders?.Any() == true ? $"{string.Join("\r\n\r\n", orders.Select(t => $" 哪一餐：{t.type}\r\n 餐廳：{t.restaurant}\r\n 餐點內容：{t.meal}\r\n 訂購時間：{t.orderTime}"))}"
-                                                                               : $"{_LineEvent.postback.Params.date} 查無點餐紀錄";
+                //_ReplyMessage = orders?.Any() == true ? $"{string.Join("\r\n\r\n", orders.Select(t => $" 哪一餐：{t.type}\r\n 餐廳：{t.restaurant}\r\n 餐點內容：{t.meal}\r\n 訂購時間：{t.orderTime}"))}"
+                //                                                               : $"{_LineEvent.postback.Params.date} 查無點餐紀錄";
                 _Statue = string.Empty;
             }
         }
@@ -302,9 +302,9 @@ namespace LineBotSDK.Controllers
                     OrderService service = new OrderService(_LineEvent.source.userId);
                     service.DeleteOrder(new OrderService.DeleteOrderDto
                     {
-                        type = datas[0],
+                        //type = datas[0],
                         restaurant = datas[1],
-                        meal = datas[2],
+                        //meal = datas[2],
                     });
 
                     _ReplyMessage = "刪除訂單完成";
@@ -333,7 +333,7 @@ namespace LineBotSDK.Controllers
                 _TextMessage.text = "請選擇要刪除的訂單?";
                 foreach (var i in orders)
                 {
-                    _TextMessage.quickReply.items.Add(new QuickReplyMessageAction($"{i.type}/{i.restaurant}/{i.meal}", $"{i.type}/{i.restaurant}/{i.meal}"));
+                   // _TextMessage.quickReply.items.Add(new QuickReplyMessageAction($"{i.type}/{i.restaurant}/{i.meal}", $"{i.type}/{i.restaurant}/{i.meal}"));
                 }
             }
         }

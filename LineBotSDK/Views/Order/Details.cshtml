@@ -1,86 +1,46 @@
-﻿@model LineBotSDK.Models.Views.Order.DetailsViewModel
+﻿﻿@model LineBotSDK.Models.Views.Order.DetailsViewModel
+
+<!DOCTYPE html>
 
 @{
     ViewBag.Title = "ViewBag_Details";
+    string fullDateTimeNumber = DateTime.Now.ToString("yyyyMMdd HH:mm:sss");
 }
 
 <html>
     <head>
         <title>Details</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
-        <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />-->
-        <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>>--><!--手機板JS-->
 
+        <script src="~/Scripts/jquery-3.4.1.min.js?@fullDateTimeNumber"></script>
+        <script src="~/Scripts/bootstrap.min.js?@fullDateTimeNumber"></script>
 
-        <link rel="stylesheet" href="~/Content/jquery.mobile-1.4.5.min.css" />
-        <script src="~/scripts/jquery-1.11.1.min.js"></script>
-        <script src="~/scripts/jquery.mobile-1.4.5.min.js"></script>
-
-
-        @*<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />*@
-        @*<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>*@
-        @*<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>*@
-
-    
-
-
-        @*<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>*@
         <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script><!--Line Liff 2.0 JS-->
 
-        <script src="~/scripts/Order/Details.js"></script>
+        <script src="~/scripts/Order/Details.js?@fullDateTimeNumber"></script>
+
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+
     </head>
-
-
     <body>
-        <div data-role="page" id="Page1">
-            <div data-role="header" data-theme="d">
-                <h1>訂單查詢</h1>
-                @*<a data-rel="back">上一頁</a>*@
-            </div>
-            <div data-role="content" class="wrapper">
-                <!-- <a href="/Employees/Edit/@ViewBag.id" data-icon="grid" data-ajax="false" data-role="button">修改員工資料</a>
-                <br /> -->
-                
-                
-                @*<ul id="listviewContainer">123</ul>*@
-                @*<table data-role="table" class="ui-responsive">
-                    <tr>
-                        <th>餐廳</th>
-                        <td>滷肉飯</td>
-                    </tr>
-                </table>*@
-                <input type="text" name="" id="#text_id"><br>
-
-                <fieldset class="ui-grid-a">
-                    <div class="ui-block-a"><input type="submit" value="Submit" data-theme="a"></div>
-                    <div class="ui-block-b"><input type="reset" value="Reset" data-theme="b"></div>
-                </fieldset>
-
-                <div data-role="collapsible">
-                    <h3>I'm a header</h3>
-                    <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                    <p>2。I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
+        <div class="container">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">日曆</button>
                 </div>
-                <div data-role="collapsible">
-                    <h3>I'm a header</h3>
-                    <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                    <p>2。I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                </div>
-
-
-                <table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke" bgcolor="#00FF00">
-                    <thead>
-                        內容省略
-                    </thead>
-                    <tbody>
-                        內容省略
-                    </tbody>
-                </table>
+                <input type="number" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" id="datepicker" size="10" value="@DateTime.Now.ToString("yyyy/MM/dd")">
+                <button type="button" class="btn btn-success" onclick="SearchOrderByDate();">搜尋</button>
             </div>
-            <div data-role="footer" data-theme="d">
-                <h1>Copyright@2019 WizardWu公司</h1>
-                <h1>All Rights Reserved</h1>
+            
+            <br />
+            <div class="accordion" id="accordionExample">
             </div>
         </div>
     </body>
