@@ -15,7 +15,10 @@ namespace LineBotSDK.Service.Menu
         public MenuService() { }
 
 
-
+        public List<Menu_M> GetShowMenu()
+        {
+            return _repository.GetShow();
+        }
 
         public Menu_M GetMenu(string restaurant)
         {

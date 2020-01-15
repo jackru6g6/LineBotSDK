@@ -14,17 +14,34 @@ namespace LineBotSDK.Repository
             collection = GetMongoCollection<Menu_M>("Restaurant");
         }
 
+        #region (+)  取得顯示餐廳
+        /// <summary>
+        /// (+)  取得顯示餐廳
+        /// </summary>
+        public List<Menu_M> GetShow()
+        {
+            return collection.Find(t => t.isShow == true).ToList();
+        }
+        #endregion
 
         public List<Menu_M> Get(string restaurant)
         {
             return collection.Find(t => t.restaurant == restaurant).ToList();
         }
 
-
+        #region (+)  取得餐廳資訊
+        /// <summary>
+        /// (+)  取得餐廳資訊
+        /// </summary>
+        /// <param name="restaurant">餐廳名稱</param>
+        /// <returns></returns>
         public Menu_M GetByName(string restaurant)
         {
             return collection.Find(t => t.restaurant == restaurant).FirstOrDefault();
         }
+        #endregion
+
+        //public List<Menu_M>
 
 
         #region (+)  更新菜單
@@ -42,9 +59,15 @@ namespace LineBotSDK.Repository
         }
         #endregion
 
+        #region (+)  新增餐廳
+        /// <summary>
+        /// (+)  新增餐廳
+        /// </summary>
+        /// <param name="data">餐廳資料</param>
         public void Add(Menu_M data)
         {
             collection.InsertOneAsync(data);
         }
+        #endregion
     }
 }

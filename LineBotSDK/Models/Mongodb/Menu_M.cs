@@ -14,6 +14,7 @@ namespace LineBotSDK.Models.Mongodb
         public string website { get; set; }
         public DateTime updateDate { get; set; }
         public string notice { get; set; }
+        public bool isShow { get; set; }
 
         public List<_Menus> menus { get; set; }
 

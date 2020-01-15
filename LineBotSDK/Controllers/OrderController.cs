@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static LineBotSDK.Models.Views.Order.MenuViewModel.Restaurant;
 
 namespace LineBotSDK.Controllers
 {
     public class OrderController : Controller
     {
         private MenuService _menuService;
-        private OrderService _orderService;
 
         public OrderController()
         {
@@ -27,37 +27,26 @@ namespace LineBotSDK.Controllers
 
 
         [HttpGet]
-        public JsonResult GetOrder(string uid, DateTime? date = null)
+        public ActionResult Menu()
         {
-            if (string.IsNullOrWhiteSpace(uid))
+            MenuViewModel model = new MenuViewModel();
+
+            foreach (var i in _menuService.GetShowMenu())
             {
-                return Json(null);
+                model.restaurants.Add(new MenuViewModel.Restaurant
+                {
+                    name = i.restaurant,
+                    notice = i.notice,
+                    menus = i.menus.Select(t => new Menu
+                    {
+                        name = t.name,
+                        notice = t.notice,
+                        price = t.price.Value,
+                    }).ToList(),
+                });
             }
 
-            _orderService = new OrderService(uid);
-            date = date ?? DateTime.Now;
-
-            var a = _orderService.GetAllOrderByDate(date.Value);
-
-            return Json(_orderService.GetAllOrderByDate(date.Value), JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public void DeleteOrder(string uid, string restaurant, DateTime date)
-        {
-            if (string.IsNullOrWhiteSpace(uid))
-            {
-                //return Json(null);
-                return;
-            }
-
-            new OrderService(uid).DeleteOrder(new OrderService.DeleteOrderDto
-            {
-                restaurant = restaurant,
-                date = date,
-            });
-            //return ok();
-            //return Json(_orderService.GetAllOrderByDate(date.Value), JsonRequestBehavior.AllowGet);
+            return View(model);
         }
 
     }

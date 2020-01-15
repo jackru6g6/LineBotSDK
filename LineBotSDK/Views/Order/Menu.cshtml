@@ -1,0 +1,155 @@
+﻿﻿@model LineBotSDK.Models.Views.Order.MenuViewModel
+
+@{
+    ViewBag.Title = "菜單查詢&訂購";
+    string fullDateTimeNumber = DateTime.Now.ToString("yyyyMMdd HH:mm:sss");
+}
+
+<html class="easy-sidebar-active">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8" />
+    <link href="~/Content/easy-sidebar.css" rel="stylesheet" type="text/css" />
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script><!--Line Liff 2.0 JS-->
+    <script src="~/Scripts/Component/Component.js?@fullDateTimeNumber"></script>
+    <script src="~/Scripts/Order/Menu.js?@fullDateTimeNumber"></script>
+
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">*@
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">菜單</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">購物車 <span class="badge badge-danger" id="shoppingCartCount">0</span></a>
+                <span>
+                    <button type="button" class="btn btn-primary btn-sm" style="float:right">結帳</button>
+                </span>
+            </div>
+        </nav>
+        <!--菜單分頁-->
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <br />
+                @foreach (var i in Model.restaurants)
+                {
+                    <div class="d-flex justify-content-between" style="padding-bottom:2px">
+                        <h2>
+                            @i.name
+                        </h2>
+                    </div>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">菜名</th>
+                                <th scope="col">價錢</th>
+                                <th scope="col">備註</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var j = 0; j < i.menus.Count; j++)
+                            {
+                                <tr>
+                                    <th scope="row">@(j + 1)</th>
+                                    <td style="font-size:smaller;">@i.menus[j].name</td>
+                                    <td>@i.menus[j].price</td>
+                                    <td>
+                                        @if (!string.IsNullOrWhiteSpace(i.menus[j].notice))
+                                        {
+                                            <input type="image" name="submit_Btn" id="submit_Btn" img src="~/Content/images/question.png">
+                                            <button style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">備註</button>
+                                            <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-xl" role="document">
+                                                    <div class="modal-content">
+                                                        @i.menus[j].notice
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#shoppingCartModal" data-name="@i.menus[j].name" data-price="@i.menus[j].price">訂購</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="modal fade" id="shoppingCartModal" tabindex="-1" role="dialog" aria-labelledby="shoppingCartModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="shoppingCartModalLabel">品項名稱：</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="dish-name" class="col-form-label">餐點名稱：</label>
+                                            <input type="text" class="form-control" id="dish-name" disabled="disabled">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dish-price" class="col-form-label">餐點單價：</label>
+                                            <input type="text" class="form-control" id="dish-price" disabled="disabled">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="order-count" class="col-form-label">訂購數量：</label>
+                                            <input type="number" class="form-control" id="order-count">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="order-notice" class="col-form-label">備註：</label>
+                                            <textarea class="form-control" id="order-notice"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" onclick="AddShoppingCart(this)">加入</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!--購物車分頁-->
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">品項</th>
+                            <th scope="col">單價</th>
+                            <th scope="col">個數</th>
+                            <th scope="col">備註</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

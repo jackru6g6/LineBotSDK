@@ -3,45 +3,35 @@
 <!DOCTYPE html>
 
 @{
-    ViewBag.Title = "ViewBag_Details";
+    ViewBag.Title = "訂單查詢&管理";
     string fullDateTimeNumber = DateTime.Now.ToString("yyyyMMdd HH:mm:sss");
 }
 
-<html>
-    <head>
-        <title>Details</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html class="easy-sidebar-active">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script><!--Line Liff 2.0 JS-->
+    <script src="~/Scripts/Component/Component.js?@fullDateTimeNumber"></script>
+    <script src="~/Scripts/Order/Details.js?@fullDateTimeNumber"></script>
 
-        <script src="~/Scripts/jquery-3.4.1.min.js?@fullDateTimeNumber"></script>
-        <script src="~/Scripts/bootstrap.min.js?@fullDateTimeNumber"></script>
+    <script src="~/Scripts/moment.js?@fullDateTimeNumber"></script>
+</head>
+<body>
 
-        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script><!--Line Liff 2.0 JS-->
-
-        <script src="~/scripts/Order/Details.js?@fullDateTimeNumber"></script>
-
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-        <script src="//code.jquery.com/jquery-1.9.1.js"></script>
-        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
-
-    </head>
-    <body>
-        <div class="container">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">日曆</button>
-                </div>
-                <input type="number" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" id="datepicker" size="10" value="@DateTime.Now.ToString("yyyy/MM/dd")">
-                <button type="button" class="btn btn-success" onclick="SearchOrderByDate();">搜尋</button>
+    <div class="container">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon1">日曆</button>
             </div>
-            
-            <br />
-            <div class="accordion" id="accordionExample">
-            </div>
+            <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" id="datepicker" size="10" value="@DateTime.Now.ToString("yyyy/MM/dd")">
+            @*<div class="input-group date">
+                    <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                </div>*@
+            <button type="button" class="btn btn-success" onclick="SearchOrderByDate();">搜尋</button>
         </div>
-    </body>
+        <br />
+        <div class="accordion" id="accordionExample">
+        </div>
+    </div>
+</body>
 </html>
